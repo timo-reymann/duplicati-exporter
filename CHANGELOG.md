@@ -1,3 +1,10 @@
+## [0.0.4](https://github.com/timo-reymann/duplicati-exporter/compare/v0.0.3...v0.0.4) (2026-10-07)
+
+
+### Bug Fixes
+
+* decode Duplicati server state tuple fields robustly ([503bd88](https://github.com/timo-reymann/duplicati-exporter/commit/503bd887998761ae33fe2887062b9edbddc32daa))
+
 ## [0.0.3](https://github.com/timo-reymann/duplicati-exporter/compare/v0.0.2...v0.0.3) (2026-10-07)
 
 
