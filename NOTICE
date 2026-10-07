@@ -277,6 +277,7 @@ THIS SOFTWARE.
 
   --
 
+(c) BYTE
 Copyright 2008, 2023-2024 Google Inc. All rights reserved.
 Copyright 2018-2019 The Go Authors
 Copyright (c) 2018 The Go Authors. All rights reserved.
@@ -285,6 +286,8 @@ Copyright \d\d\d\d Google Inc\. All rights reserved\.
 BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
 BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0
+BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
+BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0
 
 Additional IP Rights Grant (Patents)
 
@@ -656,7 +659,7 @@ copyright 2026 year
 copyright 2026 years
 ----
 
-Package: github.com/prometheus/client_model:0.6.2
+Package: github.com/prometheus/client_model:0.6.3
 
 This package contains the file LICENSE with the following contents:
 
@@ -1366,7 +1369,7 @@ shall terminate as of the date such litigation is filed.
 
 ----
 
-Package: google.golang.org/protobuf:1.36.11
+Package: google.golang.org/protobuf:1.36.12
 
 This package contains the file LICENSE with the following contents:
 
@@ -1401,10 +1404,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 The following copyright holder information relates to the license(s) above:
 
 Copyright 2008, 2023-2024 Google Inc. All rights reserved.
+Copyright 2008 Google LLC. All rights reserved.
 Copyright 2018-2019 The Go Authors
 Copyright 2018-2025 The Go Authors. All rights reserved.
 Copyright (c) 2018 The Go Authors. All rights reserved.
-Copyright \d\d\d\d Google Inc\. All rights reserved\.
+Copyright \d\d\d\d Google (Inc|LLC)\. All rights reserved\.
 
 This package contains the file PATENTS with the following contents:
 
