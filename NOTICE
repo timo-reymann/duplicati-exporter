@@ -3,10 +3,23 @@ The applicable license information is listed below:
 
 ----
 
+Copyright (c) Bartłomiej Płotka @bwplotka
+Copyright 2013-2015 Blake Mizerany, Björn Rabenstein
+Copyright (c) 2016 Caleb Spare
 Copyright (c) 2011-2019 Canonical Ltd
+Copyright 2024 Google LLC
 Copyright (c) 2019 Klaus Post. All rights reserved.
+Copyright (c) 2022 PlanetScale Inc. All rights reserved.
+Copyright 2013, 2024 Prometheus Team
+Copyright 2017 Roger Luethi
+Copyright (c) The EfficientGo Authors.
+Copyright 2009-2010, 2017 The Go Authors
+Copyright 2009-2026 The Go Authors. All rights reserved.
 Copyright (c) 2012 The Go Authors. All rights reserved.
 Copyright 2016-2017 The New York Times Company
+Copyright 2012-2025 The Prometheus Authors
+Copyright 2020 The Prometheus-operator Authors
+Copyright 2026 years
 
                                  Apache License
                            Version 2.0, January 2004
@@ -264,6 +277,37 @@ THIS SOFTWARE.
 
   --
 
+Copyright 2008, 2023-2024 Google Inc. All rights reserved.
+Copyright 2018-2019 The Go Authors
+Copyright (c) 2018 The Go Authors. All rights reserved.
+Copyright 2018-2025 The Go Authors. All rights reserved.
+Copyright \d\d\d\d Google Inc\. All rights reserved\.
+BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
+BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
+BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0
+
+Additional IP Rights Grant (Patents)
+
+"This implementation" means the copyrightable works distributed by Google as
+part of the Go project.
+
+Google hereby grants to You a perpetual, worldwide, non-exclusive, no-charge,
+royalty-free, irrevocable (except as stated in this section) patent license to
+make, have made, use, offer to sell, sell, import, transfer and otherwise run,
+modify and propagate the contents of this implementation of Go, where such
+license applies only to those patent claims, both currently owned or controlled
+by Google and acquired in the future, licensable by Google that are necessarily
+infringed by this implementation of Go.  This grant does not include claims that
+would be infringed only as a consequence of further modification of this
+implementation.  If you or your agent or exclusive licensee institute or order
+or agree to the institution of patent litigation against any entity (including a
+cross-claim or counterclaim in a lawsuit) alleging that this implementation of
+Go or any code incorporated within this implementation of Go constitutes direct
+or contributory patent infringement, or inducement of patent infringement, then
+any patent rights granted to you under this License for this implementation of
+Go shall terminate as of the date such litigation is filed.
+  --
+
 Copyright (c) 2013 Blake Mizerany
 Copyright (c) 2016 Caleb Spare
 Copyright (c) 2006-2011 Kirill Simonov
@@ -272,7 +316,7 @@ Copyright (c) 2012-2020 Mat Ryer, Tyler Bunnell and contributors.
 Copyright 2016 The filepathx Authors
 Copyright (c) 2012-2016 The go-diff Authors. All rights reserved.
 Copyright (c) 2018 Uber Technologies, Inc.
-copyright 2011 staring in when the project was ported over:
+Copyright 2011 staring in when the project was ported over:
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
