@@ -1,0 +1,124 @@
+version: '2.1'
+
+only_tags: &only_tags
+  filters:
+    branches:
+      ignore: /.*/
+    tags:
+      only: /.*/
+
+orbs:
+  go: circleci/go@4.0.2
+  docker: circleci/docker@4.0.1
+  codecov: codecov/codecov@6.1.0
+  github-cli: circleci/github-cli@3.0.0
+  semantic-release: trustedshops-public/semantic-release@6.1.0
+
+executors:
+  go:
+    docker:
+      - image: cimg/go:1.26
+
+jobs:
+  unit-test:
+    executor: go
+    steps:
+      - checkout
+      - go/with-cache:
+          steps:
+            - go/mod-download-cached
+            - run:
+                name: Vet
+                command: |
+                  go vet ./...
+            - run:
+                name: Run tests
+                command: |
+                  CGO_ENABLED=0 go test -coverprofile=coverage.txt -covermode=atomic -v ./...
+      - codecov/upload
+      - store_artifacts:
+          path: coverage.txt
+
+  build-cli:
+    executor: go
+    steps:
+      - checkout
+      - go/with-cache:
+          steps:
+            - go/mod-download-cached
+            - run:
+                name: Cross-compile binaries and checksums
+                command: |
+                  make build
+            - persist_to_workspace:
+                root: ./
+                paths:
+                  - dist/
+
+  publish-docker-image:
+    executor: docker/docker
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+      - setup_remote_docker:
+          version: default
+      - run:
+          name: Build and publish multi-arch image
+          command: |
+            echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker buildx create --use
+            make build-docker
+
+  attach-binaries-to-release:
+    executor: go
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ./
+          name: Retrieve persisted binaries
+      - github-cli/install:
+          version: "2.62.0"
+      - run:
+          name: Attach binaries to the GitHub release
+          command: |
+            gh release upload "${CIRCLE_TAG}" dist/* --clobber
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - unit-test:
+          filters:
+            tags:
+              only: /.*/
+      - build-cli:
+          requires:
+            - unit-test
+          filters:
+            tags:
+              only: /.*/
+      - semantic-release/with_existing_config:
+          name: semantic-release
+          additional_packages: "@semantic-release/changelog @semantic-release/git"
+          requires:
+            - build-cli
+          context:
+            - semantic-release
+          filters:
+            branches:
+              only:
+                - main
+
+  release:
+    jobs:
+      - build-cli:
+          <<: *only_tags
+      - publish-docker-image:
+          <<: *only_tags
+          requires:
+            - build-cli
+      - attach-binaries-to-release:
+          <<: *only_tags
+          requires:
+            - build-cli
