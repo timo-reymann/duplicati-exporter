@@ -1,3 +1,15 @@
+# [0.1.0](https://github.com/timo-reymann/duplicati-exporter/compare/v0.0.5...v0.1.0) (2026-10-07)
+
+
+### Bug Fixes
+
+* resolve machine name and id from Duplicati server settings ([6cfc80b](https://github.com/timo-reymann/duplicati-exporter/commit/6cfc80b2e3604a1955090478895e15121719041d))
+
+
+### Features
+
+* add Grafana dashboard ([860d3ba](https://github.com/timo-reymann/duplicati-exporter/commit/860d3baec4d3e86beafba086b48fe021795072f5))
+
 ## [0.0.5](https://github.com/timo-reymann/duplicati-exporter/compare/v0.0.4...v0.0.5) (2026-10-07)
 
 
