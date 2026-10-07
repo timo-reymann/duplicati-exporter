@@ -50,22 +50,35 @@ func Discover(ctx context.Context, c *Client) (*MachineInfo, error) {
 		return nil, fmt.Errorf("discover timezone: %w", err)
 	}
 
+	settings := serverSettingsOrNil(ctx, c)
+
 	id := MachineIdentity{
-		MachineID:   machineIDFromBackups(backups),
-		MachineName: strings.TrimSpace(sys.MachineName),
+		MachineID:   firstNonEmpty(settings["--machine-id"], machineIDFromBackups(backups)),
+		MachineName: firstNonEmpty(settings["--machine-name"], sys.MachineName),
 		Timezone:    sys.ServerTimeZone,
 		Version:     firstNonEmpty(sys.ServerVersionName, sys.ServerVersion),
 		OSType:      sys.OSType,
 		OSVersion:   sys.OSVersion,
 	}
 	if id.MachineID == "" {
-		// Duplicati only exposes machine-id as a backup option; when no backup
-		// overrides it, fall back to a stable identifier derived from the
-		// endpoint so the label set stays unique and stable.
+		// Without a server-wide or per-backup machine-id, fall back to a stable
+		// identifier derived from the endpoint so the label set stays unique.
 		id.MachineID = c.BaseURL().Host
 	}
 
 	return &MachineInfo{MachineIdentity: id, loc: loc, discovered: time.Now().UTC()}, nil
+}
+
+// serverSettingsOrNil reads the server-wide settings, which carry the
+// --machine-name and --machine-id a user configured in the Duplicati UI. They
+// are optional: older servers or restricted tokens simply fall back to
+// systeminfo, so any error yields nil rather than failing discovery.
+func serverSettingsOrNil(ctx context.Context, c *Client) map[string]string {
+	settings, err := c.ServerSettings(ctx)
+	if err != nil {
+		return nil
+	}
+	return settings
 }
 
 // machineIDFromBackups returns the machine-id backup option if any backup
@@ -114,9 +127,14 @@ func (m *MachineInfo) Refresh(ctx context.Context, c *Client) error {
 		return fmt.Errorf("duplicati: empty machine name in systeminfo")
 	}
 
+	settings := serverSettingsOrNil(ctx, c)
+
 	m.mu.Lock()
 	defer m.mu.Unlock()
-	m.MachineName = strings.TrimSpace(sys.MachineName)
+	m.MachineName = firstNonEmpty(settings["--machine-name"], sys.MachineName)
+	if v := strings.TrimSpace(settings["--machine-id"]); v != "" {
+		m.MachineID = v
+	}
 	m.Version = firstNonEmpty(sys.ServerVersionName, sys.ServerVersion)
 	m.OSType = sys.OSType
 	m.OSVersion = sys.OSVersion

@@ -62,6 +62,60 @@ func TestDiscoverFallsBackToHostForMachineID(t *testing.T) {
 	}
 }
 
+func TestDiscoverPrefersServerSettings(t *testing.T) {
+	f := newFakeDuplicati(t)
+	f.serverSettings = map[string]string{
+		"--machine-name": "Photoprism",
+		"--machine-id":   "photoprism-pi",
+		"is-first-run":   "",
+	}
+	f.backups = []BackupWithSchedule{{
+		Backup: Backup{
+			ID: "1", Name: "photos", OperationType: "Backup",
+			Settings: []Setting{{Name: "--machine-id", Value: "from-backup"}},
+		},
+	}}
+
+	info, err := Discover(context.Background(), f.client(t))
+	if err != nil {
+		t.Fatalf("Discover() error = %v", err)
+	}
+	id, _ := info.Snapshot()
+	if id.MachineName != "Photoprism" {
+		t.Errorf("MachineName = %q, want Photoprism", id.MachineName)
+	}
+	if id.MachineID != "photoprism-pi" {
+		t.Errorf("MachineID = %q, want photoprism-pi", id.MachineID)
+	}
+
+	// A refresh must keep honouring the server settings and pick up renames.
+	f.serverSettings["--machine-name"] = "Photoprism 2"
+	if err := info.Refresh(context.Background(), f.client(t)); err != nil {
+		t.Fatalf("Refresh() error = %v", err)
+	}
+	id, _ = info.Snapshot()
+	if id.MachineName != "Photoprism 2" {
+		t.Errorf("MachineName after refresh = %q, want Photoprism 2", id.MachineName)
+	}
+	if id.MachineID != "photoprism-pi" {
+		t.Errorf("MachineID after refresh = %q, want photoprism-pi", id.MachineID)
+	}
+}
+
+func TestDiscoverIgnoresEmptyServerSettings(t *testing.T) {
+	f := newFakeDuplicati(t)
+	f.serverSettings = map[string]string{"--machine-name": "  ", "--machine-id": ""}
+
+	info, err := Discover(context.Background(), f.client(t))
+	if err != nil {
+		t.Fatalf("Discover() error = %v", err)
+	}
+	id, _ := info.Snapshot()
+	if id.MachineName != "test-host" {
+		t.Errorf("MachineName = %q, want systeminfo fallback test-host", id.MachineName)
+	}
+}
+
 func TestDiscoverFailsWithoutAuth(t *testing.T) {
 	f := newFakeDuplicati(t)
 	f.failLogin = true

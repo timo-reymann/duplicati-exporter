@@ -194,6 +194,22 @@ func (c *Client) SystemInfo(ctx context.Context) (*SystemInfo, error) {
 	return &out, nil
 }
 
+// ServerSettings fetches the server-wide settings. Values are normalised to
+// strings because Duplicati serialises booleans and numbers inconsistently.
+func (c *Client) ServerSettings(ctx context.Context) (map[string]string, error) {
+	var raw map[string]any
+	if err := c.getJSON(ctx, "/api/v1/serversettings", &raw); err != nil {
+		return nil, err
+	}
+	out := make(map[string]string, len(raw))
+	for k, v := range raw {
+		if s, ok := v.(string); ok {
+			out[k] = s
+		}
+	}
+	return out, nil
+}
+
 // ServerState fetches the scheduler state.
 func (c *Client) ServerState(ctx context.Context) (*ServerState, error) {
 	var out ServerState

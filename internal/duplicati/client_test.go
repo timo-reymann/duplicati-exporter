@@ -25,6 +25,7 @@ type fakeDuplicati struct {
 	serverState     *ServerState
 	serverStateJSON json.RawMessage
 	notifications   []Notification
+	serverSettings  map[string]string
 }
 
 func newFakeDuplicati(t *testing.T) *fakeDuplicati {
@@ -74,6 +75,13 @@ func newFakeDuplicati(t *testing.T) *fakeDuplicati {
 
 	mux.HandleFunc("/api/v1/systeminfo", auth(func(w http.ResponseWriter, _ *http.Request) {
 		_ = json.NewEncoder(w).Encode(f.systemInfo)
+	}))
+	mux.HandleFunc("/api/v1/serversettings", auth(func(w http.ResponseWriter, _ *http.Request) {
+		if f.serverSettings == nil {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		_ = json.NewEncoder(w).Encode(f.serverSettings)
 	}))
 	mux.HandleFunc("/api/v1/serverstate", auth(func(w http.ResponseWriter, _ *http.Request) {
 		if len(f.serverStateJSON) > 0 {
