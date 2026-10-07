@@ -1,0 +1,27 @@
+# VCS and CI
+.git
+.github
+.circleci
+
+# Build artifacts not needed inside the image context (we build in Dockerfile
+# stages; when using prebuilt dist/ the folder itself must NOT be ignored)
+coverage.txt
+coverage.html
+junit.xml
+report.xml
+
+# IDE / editor
+.idea
+.vscode
+
+# Local env / secrets
+.env
+.env.*
+*.local
+
+# Docs and examples
+examples/
+docs/
+
+# OS
+.DS_Store
