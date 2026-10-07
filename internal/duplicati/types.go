@@ -1,7 +1,10 @@
 // Package duplicati implements a client for the Duplicati Server HTTP API (v1).
 package duplicati
 
-import "strings"
+import (
+	"encoding/json"
+	"strings"
+)
 
 // SystemInfo is the subset of GET /api/v1/systeminfo the exporter needs.
 type SystemInfo struct {
@@ -15,24 +18,26 @@ type SystemInfo struct {
 	OSVersion         string `json:"OSVersion"`
 }
 
-// ServerState is the response of GET /api/v1/serverstate.
+// ServerState is the response of GET /api/v1/serverstate. Tuple-valued fields
+// are kept as raw JSON because Duplicati serializes their shape differently
+// across versions, and the exporter only consumes ProgramState.
 type ServerState struct {
-	ActiveTask          []any   `json:"ActiveTask"`
-	ProgramState        string  `json:"ProgramState"`
-	SchedulerQueueIDs   [][]any `json:"SchedulerQueueIds"`
-	ProposedSchedule    [][]any `json:"ProposedSchedule"`
-	HasWarning          bool    `json:"HasWarning"`
-	HasError            bool    `json:"HasError"`
-	SuggestedStatusIcon string  `json:"SuggestedStatusIcon"`
-	EstimatedPauseEnd   string  `json:"EstimatedPauseEnd"`
-	LastEventID         int64   `json:"LastEventID"`
-	LastDataUpdateID    int64   `json:"LastDataUpdateID"`
-	LastNotificationID  int64   `json:"LastNotificationUpdateID"`
-	UpdatedVersion      *string `json:"UpdatedVersion"`
-	UpdaterState        string  `json:"UpdaterState"`
-	UpdateDownloadLink  *string `json:"UpdateDownloadLink"`
-	UpdateProgress      float64 `json:"UpdateDownloadProgress"`
-	Type                string  `json:"Type"`
+	ActiveTask          json.RawMessage `json:"ActiveTask"`
+	ProgramState        string          `json:"ProgramState"`
+	SchedulerQueueIDs   json.RawMessage `json:"SchedulerQueueIds"`
+	ProposedSchedule    json.RawMessage `json:"ProposedSchedule"`
+	HasWarning          bool            `json:"HasWarning"`
+	HasError            bool            `json:"HasError"`
+	SuggestedStatusIcon string          `json:"SuggestedStatusIcon"`
+	EstimatedPauseEnd   string          `json:"EstimatedPauseEnd"`
+	LastEventID         int64           `json:"LastEventID"`
+	LastDataUpdateID    int64           `json:"LastDataUpdateID"`
+	LastNotificationID  int64           `json:"LastNotificationUpdateID"`
+	UpdatedVersion      *string         `json:"UpdatedVersion"`
+	UpdaterState        string          `json:"UpdaterState"`
+	UpdateDownloadLink  *string         `json:"UpdateDownloadLink"`
+	UpdateProgress      float64         `json:"UpdateDownloadProgress"`
+	Type                string          `json:"Type"`
 }
 
 // Paused reports whether the scheduler is currently paused.

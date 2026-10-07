@@ -14,16 +14,17 @@ import (
 
 // fakeDuplicati is a minimal Duplicati API server for tests.
 type fakeDuplicati struct {
-	server        *httptest.Server
-	password      string
-	token         string
-	failLogin     bool
-	authChecks    int32
-	failOn        map[string]bool
-	systemInfo    *SystemInfo
-	backups       []BackupWithSchedule
-	serverState   *ServerState
-	notifications []Notification
+	server          *httptest.Server
+	password        string
+	token           string
+	failLogin       bool
+	authChecks      int32
+	failOn          map[string]bool
+	systemInfo      *SystemInfo
+	backups         []BackupWithSchedule
+	serverState     *ServerState
+	serverStateJSON json.RawMessage
+	notifications   []Notification
 }
 
 func newFakeDuplicati(t *testing.T) *fakeDuplicati {
@@ -75,6 +76,10 @@ func newFakeDuplicati(t *testing.T) *fakeDuplicati {
 		_ = json.NewEncoder(w).Encode(f.systemInfo)
 	}))
 	mux.HandleFunc("/api/v1/serverstate", auth(func(w http.ResponseWriter, _ *http.Request) {
+		if len(f.serverStateJSON) > 0 {
+			_, _ = w.Write(f.serverStateJSON)
+			return
+		}
 		_ = json.NewEncoder(w).Encode(f.serverState)
 	}))
 	mux.HandleFunc("/api/v1/backups", auth(func(w http.ResponseWriter, _ *http.Request) {
@@ -121,6 +126,34 @@ func TestClientLoginAndRequest(t *testing.T) {
 	}
 	if got := atomic.LoadInt32(&f.authChecks); got == 0 {
 		t.Error("no authenticated request was made")
+	}
+}
+
+func TestClientServerStateTupleObjects(t *testing.T) {
+	f := newFakeDuplicati(t)
+	f.serverStateJSON = json.RawMessage(`{
+		"ActiveTask": {"Item1": 42, "Item2": "backup-id"},
+		"ProgramState": "Paused",
+		"SchedulerQueueIds": [{"Item1": 43, "Item2": "backup-id"}],
+		"ProposedSchedule": [{"Item1": "backup-id", "Item2": "2026-10-07T18:45:00Z"}]
+	}`)
+	c := f.client(t)
+
+	state, err := c.ServerState(context.Background())
+	if err != nil {
+		t.Fatalf("ServerState() error = %v", err)
+	}
+	if !state.Paused() {
+		t.Error("Paused() = false, want true")
+	}
+	for name, got := range map[string]json.RawMessage{
+		"ActiveTask":        state.ActiveTask,
+		"SchedulerQueueIds": state.SchedulerQueueIDs,
+		"ProposedSchedule":  state.ProposedSchedule,
+	} {
+		if len(got) == 0 || !json.Valid(got) {
+			t.Errorf("%s = %q, want preserved valid JSON", name, got)
+		}
 	}
 }
 
