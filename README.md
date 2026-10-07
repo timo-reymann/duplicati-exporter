@@ -337,35 +337,6 @@ $ make build   # cross-compile into dist/
 - Scrape Duplicati's JSON API directly with a generic exporter
 - Use Duplicati's own notifications / `send-http` reporting without Prometheus
 
-### Licence compliance
-
-Third-party licence compliance is checked by the reusable
-[ORT workflow](https://github.com/timo-reymann/.github) from
-`timo-reymann/.github`. [`ort.yml`](.github/workflows/ort.yml) runs on pull
-requests that touch dependencies (`go.mod`, `go.sum`, lockfiles, `NOTICE`, …),
-runs the OSS Review Toolkit analyze → scan → evaluate → report pipeline and
-fails when a dependency carries a non-allowed licence. It also fails (or
-auto-commits on Renovate PRs) when [`NOTICE`](NOTICE) no longer matches the
-generated `NOTICE_DEFAULT`; the HTML, PDF, plain text and WebApp reports are
-uploaded as run artifacts. Shared ORT configuration lives in the
-[`ort-config`](https://github.com/timo-reymann/.github/tree/main/ort-config)
-directory of the config repository.
-
-### Project layout
-
-```text
-cmd/duplicati-exporter/   entry point
-internal/config/          flag parsing and startup validation
-internal/duplicati/       Duplicati HTTP API client, discovery and timezone handling
-internal/collector/       Prometheus metric definitions
-internal/server/          HTTP endpoints (/metrics, /report, health)
-internal/webhook/         in-memory store for webhook reports
-internal/buildinfo/       version metadata injected via -ldflags
-internal/log/             slog helpers
-examples/                 Prometheus scrape config, alert rules, demo stack
-.github/                  ORT compliance workflow
-```
-
 ## License
 
 Licensed under the Apache License, Version 2.0 — see [LICENSE](LICENSE) and
