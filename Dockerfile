@@ -3,7 +3,7 @@
 ##
 ## Stage 1: build the static binary
 ##
-FROM golang:1.26-bookworm AS builder
+FROM --platform=$BUILDPLATFORM golang:1.26-bookworm AS builder
 
 WORKDIR /src
 
@@ -14,15 +14,16 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 
 COPY . .
 
-ARG TARGETOS=linux
-ARG TARGETARCH=amd64
+ARG TARGETOS
+ARG TARGETARCH
+ARG TARGETVARIANT
 ARG BUILD_TIME=unknown
 ARG BUILD_VERSION=dev
 ARG BUILD_COMMIT_REF=unknown
 
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
+    CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} GOARM=${TARGETVARIANT#v} \
     go build -trimpath \
       -ldflags="-s -w \
         -X github.com/timo-reymann/duplicati-exporter/internal/buildinfo.Version=${BUILD_VERSION} \
