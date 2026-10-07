@@ -1,12 +1,14 @@
-# duplicati-exporter
+duplicati-exporter
+===
+[![LICENSE](https://img.shields.io/github/license/timo-reymann/duplicati-exporter)](https://github.com/timo-reymann/duplicati-exporter/blob/main/LICENSE)
+[![CircleCI](https://circleci.com/gh/timo-reymann/duplicati-exporter.svg?style=shield)](https://app.circleci.com/pipelines/github/timo-reymann/duplicati-exporter)
+[![GitHub Release](https://img.shields.io/github/v/tag/timo-reymann/duplicati-exporter?label=version)](https://github.com/timo-reymann/duplicati-exporter/releases)
+[![Renovate](https://img.shields.io/badge/renovate-enabled-green?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzNjkgMzY5Ij48Y2lyY2xlIGN4PSIxODkuOSIgY3k9IjE5MC4yIiByPSIxODQuNSIgZmlsbD0iI2ZmZTQyZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTUgLTYpIi8+PHBhdGggZmlsbD0iIzhiYjViNSIgZD0iTTI1MSAyNTZsLTM4LTM4YTE3IDE3IDAgMDEwLTI0bDU2LTU2YzItMiAyLTYgMC03bC0yMC0yMWE1IDUgMCAwMC03IDBsLTEzIDEyLTktOCAxMy0xM2ExNyAxNyAwIDAxMjQgMGwyMSAyMWM3IDcgNyAxNyAwIDI0bC01NiA1N2E1IDUgMCAwMDAgN2wzOCAzOHoiLz48cGF0aCBmaWxsPSIjZDk1NjEyIiBkPSJNMzAwIDI4OGwtOCA4Yy00IDQtMTEgNC0xNiAwbC00Ni00NmMtNS01LTUtMTIgMC0xNmw4LThjNC00IDExLTQgMTUgMGw0NyA0N2M0IDQgNCAxMSAwIDE1eiIvPjxwYXRoIGZpbGw9IiMyNGJmYmUiIGQ9Ik04MSAxODVsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzI1YzRjMyIgZD0iTTIyMCAxMDBsMjMgMjNjNCA0IDQgMTEgMCAxNkwxNDIgMjQwYy00IDQtMTEgNC0xNSAwbC0yNC0yNGMtNC00LTQtMTEgMC0xNWwxMDEtMTAxYzUtNSAxMi01IDE2IDB6Ii8+PHBhdGggZmlsbD0iIzFkZGVkZCIgZD0iTTk5IDE2N2wxOC0xOCAxOCAxOC0xOCAxOHoiLz48cGF0aCBmaWxsPSIjMDBhZmIzIiBkPSJNMjMwIDExMGwxMyAxM2M0IDQgNCAxMSAwIDE2TDE0MiAyNDBjLTQgNC0xMSA0LTE1IDBsLTEzLTEzYzQgNCAxMSA0IDE1IDBsMTAxLTEwMWM1LTUgNS0xMSAwLTE2eiIvPjxwYXRoIGZpbGw9IiMyNGJmYmUiIGQ9Ik0xMTYgMTQ5bDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMxZGRlZGQiIGQ9Ik0xMzQgMTMxbDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMxYmNmY2UiIGQ9Ik0xNTIgMTEzbDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMyNGJmYmUiIGQ9Ik0xNzAgOTVsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzFiY2ZjZSIgZD0iTTYzIDE2N2wxOC0xOCAxOCAxOC0xOCAxOHpNOTggMTMxbDE4LTE4IDE4IDE4LTE4IDE4eiIvPjxwYXRoIGZpbGw9IiMzNGVkZWIiIGQ9Ik0xMzQgOTVsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzFiY2ZjZSIgZD0iTTE1MyA3OGwxOC0xOCAxOCAxOC0xOCAxOHoiLz48cGF0aCBmaWxsPSIjMzRlZGViIiBkPSJNODAgMTEzbDE4LTE3IDE4IDE3LTE4IDE4ek0xMzUgNjBsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzk4ZWRlYiIgZD0iTTI3IDEzMWwxOC0xOCAxOCAxOC0xOCAxOHoiLz48cGF0aCBmaWxsPSIjYjUzZTAyIiBkPSJNMjg1IDI1OGw3IDdjNCA0IDQgMTEgMCAxNWwtOCA4Yy00IDQtMTEgNC0xNiAwbC02LTdjNCA1IDExIDUgMTUgMGw4LTdjNC01IDQtMTIgMC0xNnoiLz48cGF0aCBmaWxsPSIjOThlZGViIiBkPSJNODEgNzhsMTgtMTggMTggMTgtMTggMTh6Ii8+PHBhdGggZmlsbD0iIzAwYTNhMiIgZD0iTTIzNSAxMTVsOCA4YzQgNCA0IDExIDAgMTZMMTQyIDI0MGMtNCA0LTExIDQtMTUgMGwtOS05YzUgNSAxMiA1IDE2IDBsMTAxLTEwMWM0LTQgNC0xMSAwLTE1eiIvPjxwYXRoIGZpbGw9IiMzOWQ5ZDgiIGQ9Ik0yMjggMTA4bC04LThjLTQtNS0xMS01LTE2IDBMMTAzIDIwMWMtNCA0LTQgMTEgMCAxNWw4IDhjLTQtNC00LTExIDAtMTVsMTAxLTEwMWM1LTQgMTItNCAxNiAweiIvPjxwYXRoIGZpbGw9IiNhMzM5MDQiIGQ9Ik0yOTEgMjY0bDggOGM0IDQgNCAxMSAwIDE2bC04IDdjLTQgNS0xMSA1LTE1IDBsLTktOGM1IDUgMTIgNSAxNiAwbDgtOGM0LTQgNC0xMSAwLTE1eiIvPjxwYXRoIGZpbGw9IiNlYjZlMmQiIGQ9Ik0yNjAgMjMzbC00LTRjLTYtNi0xNy02LTIzIDAtNyA3LTcgMTcgMCAyNGw0IDRjLTQtNS00LTExIDAtMTZsOC04YzQtNCAxMS00IDE1IDB6Ii8+PHBhdGggZmlsbD0iIzEzYWNiZCIgZD0iTTEzNCAyNDhjLTQgMC04LTItMTEtNWwtMjMtMjNhMTYgMTYgMCAwMTAtMjNMMjAxIDk2YTE2IDE2IDAgMDEyMiAwbDI0IDI0YzYgNiA2IDE2IDAgMjJMMTQ2IDI0M2MtMyAzLTcgNS0xMiA1em03OC0xNDdsLTQgMi0xMDEgMTAxYTYgNiAwIDAwMCA5bDIzIDIzYTYgNiAwIDAwOSAwbDEwMS0xMDFhNiA2IDAgMDAwLTlsLTI0LTIzLTQtMnoiLz48cGF0aCBmaWxsPSIjYmY0NDA0IiBkPSJNMjg0IDMwNGMtNCAwLTgtMS0xMS00bC00Ny00N2MtNi02LTYtMTYgMC0yMmw4LThjNi02IDE2LTYgMjIgMGw0NyA0NmM2IDcgNiAxNyAwIDIzbC04IDhjLTMgMy03IDQtMTEgNHptLTM5LTc2Yy0xIDAtMyAwLTQgMmwtOCA3Yy0yIDMtMiA3IDAgOWw0NyA0N2E2IDYgMCAwMDkgMGw3LThjMy0yIDMtNiAwLTlsLTQ2LTQ2Yy0yLTItMy0yLTUtMnoiLz48L3N2Zz4=)](https://renovatebot.com)
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/timo-reymann/duplicati-exporter/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/timo-reymann/duplicati-exporter/tree/main)
-[![GitHub Release](https://img.shields.io/github/v/release/timo-reymann/duplicati-exporter)](https://github.com/timo-reymann/duplicati-exporter/releases)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-
-A Prometheus exporter for [Duplicati](https://duplicati.com) that polls the Duplicati
-Server API on every scrape and exposes backup health, schedule, storage and fileset
-metrics.
+<p align="center">
+    <a href="https://duplicati.com">Duplicati</a> backup health, schedule, storage
+    and fileset metrics for Prometheus.
+</p>
 
 ## Features
 
@@ -26,6 +28,11 @@ metrics.
 - **Durable by design** — the API is the source of truth, and Duplicati persists the
   metadata in its own database. A restart of the exporter (or a webhook that arrives
   while the exporter is down) does not lose history.
+
+## Requirements
+
+- A [Duplicati](https://duplicati.com) server reachable over HTTP(S) with API access
+- Prometheus (or any other scraper) to collect the metrics
 
 ## Installation
 
@@ -52,7 +59,9 @@ $ make build
 $ ./dist/duplicati-exporter_linux-amd64 --help
 ```
 
-## Configuration
+## Usage
+
+### Configuration
 
 The exporter is configured with flags (environment variables are supported for
 containers, see below).
@@ -71,7 +80,7 @@ containers, see below).
 | `--server` | — | Duplicati endpoint; repeat once per machine (see below) |
 | `--version` | — | Print version and exit |
 
-### `--server`
+#### `--server`
 
 Repeat the flag to scrape multiple Duplicati machines:
 
@@ -107,7 +116,7 @@ If any endpoint is unreachable, the credentials are wrong or the timezone cannot
 resolved, the exporter exits immediately — it does not start in a degraded state.
 The identity is re-read behind a mutex every `--api.identity-refresh-interval`, not on every scrape.
 
-### Environment variables (containers)
+#### Environment variables (containers)
 
 Every flag maps to an environment variable with the `DUPLICATI_EXPORTER_` prefix
 and `.`/`-` replaced by `_`:
@@ -118,7 +127,7 @@ $ DUPLICATI_EXPORTER_SERVER='name=primary;url=https://backup1:8200;password=secr
 $ DUPLICATI_EXPORTER_LOG_LEVEL=debug
 ```
 
-## How to configure Duplicati
+### How to configure Duplicati
 
 The exporter polls the API, so no Duplicati-side report configuration is *required*.
 If you also want per-run transfer deltas and `ParsedResult` (webhook metrics), add to
@@ -130,13 +139,13 @@ the Duplicati backup's advanced options:
 --send-http-any-operation=true
 ```
 
-## Metrics
+### Metrics
 
 All time-series are gauges and every timestamp is a **UTC Unix epoch (seconds)**.
 Labels use Duplicati's own terminology: `machine_id` and `machine_name` (auto-
 discovered from `GET /api/v1/systeminfo`) plus `backup_name` where applicable.
 
-### Per-machine
+#### Per-machine
 
 | Metric | Description |
 |---|---|
@@ -149,7 +158,7 @@ discovered from `GET /api/v1/systeminfo`) plus `backup_name` where applicable.
 | `duplicati_machine_last_scrape_timestamp_seconds` | UTC timestamp of the last successful scrape of this machine |
 | `duplicati_machine_scrape_duration_seconds` | Duration of the last scrape of this machine |
 
-### Per backup
+#### Per backup
 
 | Metric | Description |
 |---|---|
@@ -171,14 +180,14 @@ discovered from `GET /api/v1/systeminfo`) plus `backup_name` where applicable.
 | `duplicati_backup_last_vacuum_time` | Last vacuum start/finish time (when present) |
 | `duplicati_backup_last_sync_time` | Last sync start/finish time (when present) |
 
-### Schedule
+#### Schedule
 
 | Metric | Description |
 |---|---|
 | `duplicati_backup_next_run_time` | Next scheduled run time (converted from the server timezone to UTC) |
 | `duplicati_backup_schedule_last_run_time` | UTC timestamp when the schedule last triggered a run (`Schedule.LastRun`) |
 
-### Filesets (labeled by `version`)
+#### Filesets (labeled by `version`)
 
 | Metric | Description |
 |---|---|
@@ -188,7 +197,7 @@ discovered from `GET /api/v1/systeminfo`) plus `backup_name` where applicable.
 | `duplicati_backup_fileset_file_sizes` | Size of the version |
 | `duplicati_backup_fileset_is_full` | `1` if the version is a full backup |
 
-### Derived (computed by the exporter)
+#### Derived (computed by the exporter)
 
 | Metric | Description |
 |---|---|
@@ -205,7 +214,7 @@ never emit the metric.
 scheduled run, so the alert tracks Duplicati's own scheduling rather than a
 re-implementation of its rules.
 
-### Webhook (in-memory, secondary)
+#### Webhook (in-memory, secondary)
 
 | Metric | Description |
 |---|---|
@@ -221,19 +230,19 @@ re-implementation of its rules.
 | `duplicati_backup_last_run_end_time` | UTC timestamp when the last reported run ended |
 | `duplicati_backup_last_run_duration_seconds` | Duration of the last reported run |
 
-### Fileset listing
+#### Fileset listing
 
 Version metrics require listing the stored versions of a backup, which makes Duplicati
 hit the backend. Results are cached for `--api.cache-ttl`; disable the whole family
 with `--collector.filesets=false` if your backup runs too frequently or the backend is
 slow to enumerate.
 
-### Standard metrics
+#### Standard metrics
 
 `go_*`, `process_*` and `duplicati_build_info{version,revision,goversion}` are
 exposed as well.
 
-## Error handling
+### Error handling
 
 `/metrics` returns **HTTP 500 only if every configured machine failed** for that
 scrape — Prometheus then marks the exporter target as down (`up == 0`). If only some
@@ -247,7 +256,7 @@ duplicati_machine_up{machine_id="…",machine_name="…"} 0
 This lets you alert on individual Duplicati machines without losing visibility into
 the healthy ones.
 
-## Example Prometheus configuration
+### Example Prometheus configuration
 
 See [`examples/prometheus.yml`](examples/prometheus.yml) for a full scrape config and
 [`examples/alerts.yml`](examples/alerts.yml) for alert rules.
@@ -261,21 +270,66 @@ scrape_configs:
       - targets: ["exporter:9685"]
 ```
 
-## Health checks
+### Health checks
 
 - `GET /-/healthy` and `GET /healthz` — liveness (returns `200` once the HTTP server
   is up)
 - `GET /-/ready` — readiness
 
+## Motivation
+
+Duplicati reports backup health only through its own web UI and REST API, so a
+failed or stale backup is easy to miss. This exporter turns that state into
+Prometheus metrics, so backup freshness can be alerted on with the same
+tooling and dashboards as everything else.
+
+## Documentation
+
+- Metric catalogue and configuration reference above
+- [`examples/`](examples) — Prometheus scrape config, alert rules and a demo stack
+
+## Contributing
+I love your input! I want to make contributing to this project as easy and transparent as possible, whether it's:
+
+- Reporting a bug
+- Discussing the current state of the configuration
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
+
+To get started please read the [Contribution Guidelines](./CONTRIBUTING.md).
+
 ## Development
 
+### Requirements
+
+- [GNU make](https://www.gnu.org/software/make/)
+- [Go](https://go.dev/doc/install)
+- [Docker](https://docs.docker.com/get-docker/) (for container images)
+
+### Test
+
 ```console
-$ make help          # show available targets
-$ make coverage      # run tests with coverage
-$ make build         # cross-compile into dist/
+$ make test                  # go test -race
 $ make test-coverage-report  # open coverage report in browser
-$ make lint         # go vet
+$ make lint                  # go vet
 ```
+
+### Build
+
+```console
+$ make build   # cross-compile into dist/
+```
+
+### Credits
+
+- [prometheus/client_golang](https://github.com/prometheus/client_golang) for the metrics exposition
+- The [Duplicati](https://duplicati.com) HTTP API as the data source
+
+### Alternatives
+
+- Scrape Duplicati's JSON API directly with a generic exporter
+- Use Duplicati's own notifications / `send-http` reporting without Prometheus
 
 ### Licence compliance
 
