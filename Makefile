@@ -1,4 +1,4 @@
-.PHONY: help clean test coverage test-coverage-report save-coverage-report lint fmt notice \
+.PHONY: help clean test coverage test-coverage-report save-coverage-report lint fmt \
 	create-dist build-linux build-windows build-darwin build-freebsd build-openbsd \
 	build-docker create-checksums build run
 
@@ -40,18 +40,6 @@ test-coverage-report: coverage ## Run tests and open the coverage report in a br
 
 save-coverage-report: coverage ## Write the coverage report to coverage.html
 	@go tool cover -html=/tmp/count.out -o coverage.html
-
-notice: ## Regenerate the NOTICE file from the module dependency graph
-	@set -euo pipefail; \
-	go list -m -json all | go tool go-licence-detector \
-		-includeIndirect \
-		-rules .github/licence-rules.json \
-		-overrides .github/licence-overrides.json \
-		-noticeOut /tmp/duplicati-exporter-NOTICE_DEPS \
-		-noticeTemplate .github/NOTICE.tmpl \
-		> /tmp/duplicati-exporter-licence.log 2>&1 || { cat /tmp/duplicati-exporter-licence.log; exit 1; }; \
-	{ cat LICENSE; echo ""; echo "----"; echo ""; cat /tmp/duplicati-exporter-NOTICE_DEPS; } > NOTICE
-	@echo "NOTICE regenerated"
 
 create-dist: ## Create the dist folder if it does not exist
 	@mkdir -p dist/

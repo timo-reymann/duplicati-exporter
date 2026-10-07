@@ -275,31 +275,21 @@ $ make coverage      # run tests with coverage
 $ make build         # cross-compile into dist/
 $ make test-coverage-report  # open coverage report in browser
 $ make lint         # go vet
-$ make notice       # regenerate NOTICE from the module graph
 ```
 
 ### Licence compliance
 
-The third-party licence inventory lives in [`NOTICE`](NOTICE), generated with
-[go-licence-detector](https://github.com/elastic/go-licence-detector):
-
-```console
-$ make notice
-```
-
-The detector is declared as a Go tool in `go.mod`, so no global install is
-needed. Configuration lives in [`.github/`](.github/):
-
-| File | Purpose |
-|---|---|
-| `licence-rules.json` | Allow-list of licences accepted for dependencies |
-| `licence-overrides.json` | Newline-delimited JSON overrides for modules the detector cannot classify |
-| `NOTICE.tmpl` | Template used for the generated dependency sections |
-
-[`licence-check.yml`](.github/workflows/licence-check.yml) runs on pull
-requests that touch `go.mod`, `go.sum` or `NOTICE`. It fails when a dependency
-carries a non-allowed licence, and fails (or auto-commits on Renovate PRs) when
-`NOTICE` no longer matches the module graph.
+Third-party licence compliance is checked by the reusable
+[ORT workflow](https://github.com/timo-reymann/.github) from
+`timo-reymann/.github`. [`ort.yml`](.github/workflows/ort.yml) runs on pull
+requests that touch dependencies (`go.mod`, `go.sum`, lockfiles, `NOTICE`, …),
+runs the OSS Review Toolkit analyze → scan → evaluate → report pipeline and
+fails when a dependency carries a non-allowed licence. It also fails (or
+auto-commits on Renovate PRs) when [`NOTICE`](NOTICE) no longer matches the
+generated `NOTICE_DEFAULT`; the HTML, PDF, plain text and WebApp reports are
+uploaded as run artifacts. Shared ORT configuration lives in the
+[`ort-config`](https://github.com/timo-reymann/.github/tree/main/ort-config)
+directory of the config repository.
 
 ### Project layout
 
@@ -313,7 +303,7 @@ internal/webhook/         in-memory store for webhook reports
 internal/buildinfo/       version metadata injected via -ldflags
 internal/log/             slog helpers
 examples/                 Prometheus scrape config, alert rules, demo stack
-.github/                  licence rules, NOTICE template and compliance workflow
+.github/                  ORT compliance workflow
 ```
 
 ## License
