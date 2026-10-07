@@ -1,0 +1,25 @@
+# Prometheus scrape configuration for duplicati-exporter.
+#
+# rule_files expects the alert rules to be reachable at the given path; adjust
+# it to wherever you keep examples/alerts.yml.
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: duplicati
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    static_configs:
+      - targets:
+          - duplicati-exporter:9685
+        labels:
+          # Optional: distinguish several exporters (e.g. per site)
+          site: home
+
+    # Relabel the discovered machine identity so Grafana can group by Duplicati
+    # machine instead of by exporter target.
+    metric_relabel_configs:
+      - source_labels: [machine_name]
+        target_label: duplicati_machine
+      - source_labels: [machine_id]
+        target_label: duplicati_machine_id

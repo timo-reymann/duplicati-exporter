@@ -1,0 +1,57 @@
+name: duplicati-exporter-demo
+
+services:
+  duplicati:
+    image: duplicati/duplicati:latest
+    container_name: duplicati
+    restart: unless-stopped
+    ports:
+      - "8200:8200"
+    environment:
+      # Web API password the exporter authenticates with.
+      DUPLICATI__WEBSERVICE_PASSWORD: ${DUPLICATI_PASSWORD:-changeme}
+    volumes:
+      - duplicati-config:/config
+      - duplicati-data:/data
+
+  duplicati-exporter:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: duplicati-exporter
+    restart: unless-stopped
+    depends_on:
+      - duplicati
+    ports:
+      - "9685:9685"
+    command:
+      - --server=name=demo;url=http://duplicati:8200;password=${DUPLICATI_PASSWORD:-changeme}
+      - --log.level=debug
+    healthcheck:
+      test: ["CMD", "/bin/duplicati-exporter", "--version"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    depends_on:
+      - duplicati-exporter
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+
+volumes:
+  duplicati-config:
+  duplicati-data:
+  prometheus-data:

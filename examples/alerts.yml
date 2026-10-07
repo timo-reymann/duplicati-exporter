@@ -1,0 +1,67 @@
+groups:
+  - name: duplicati
+    rules:
+      # Freshness based alert: Duplicati's own schedule says a run was due, but
+      # neither a finished nor a successful backup happened since.
+      - alert: DuplicatiBackupStale
+        expr: duplicati_backup_stale == 1
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Duplicati backup {{ $labels.backup_name }} on {{ $labels.machine_name }} is stale"
+          description: >-
+            The scheduled next run at {{ $value }} has passed without a finished
+            or successful backup.
+
+      # Failure signal from an active Duplicati error notification.
+      - alert: DuplicatiBackupFailed
+        expr: duplicati_backup_failure == 1
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Duplicati backup {{ $labels.backup_name }} on {{ $labels.machine_name }} reports failure"
+          description: "Duplicati has an open error notification for this backup."
+
+      # Per-machine liveness: only one machine down still leaves the scrape OK.
+      - alert: DuplicatiMachineDown
+        expr: duplicati_machine_up == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Duplicati machine {{ $labels.machine_name }} is unreachable"
+          description: "The exporter could not authenticate against or reach the Duplicati API."
+
+      # The exporter itself failed to scrape any machine.
+      - alert: DuplicatiExporterScrapeError
+        expr: min(duplicati_machine_scrape_error) == 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "duplicati-exporter cannot reach any Duplicati machine"
+          description: "Every configured machine failed during the last scrape."
+
+      # Last run reported a fatal result through the webhook.
+      - alert: DuplicatiBackupFatalResult
+        expr: duplicati_backup_last_result == 2
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Duplicati backup {{ $labels.backup_name }} on {{ $labels.machine_name }} ended fatally"
+          description: "The webhook reported ParsedResult=Fatal for the last run."
+
+      # Backend free space is running out (quota reported by the backend).
+      - alert: DuplicatiBackendQuotaLow
+        expr: >
+          duplicati_backup_total_quota_bytes > 0
+          and (duplicati_backup_free_quota_bytes / duplicati_backup_total_quota_bytes) < 0.1
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Backend for {{ $labels.backup_name }} on {{ $labels.machine_name }} is below 10% free"
+          description: "Only {{ $value | humanizePercentage }} of the backend quota is free."
