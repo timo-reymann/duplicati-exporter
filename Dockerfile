@@ -3,7 +3,7 @@
 ##
 ## Stage 1: build the static binary
 ##
-FROM --platform=$BUILDPLATFORM golang:1.26-bookworm AS builder
+FROM --platform=$BUILDPLATFORM golang:1.27-bookworm AS builder
 
 WORKDIR /src
 
