@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/timo-reymann/duplicati-exporter/compare/v0.1.0...v0.1.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/client_golang to v1.25.0 ([63dd34f](https://github.com/timo-reymann/duplicati-exporter/commit/63dd34fa7edf2ad01f02cc3b4f390de21d0ff852))
+
 # [0.1.0](https://github.com/timo-reymann/duplicati-exporter/compare/v0.0.5...v0.1.0) (2026-10-07)
 
 
