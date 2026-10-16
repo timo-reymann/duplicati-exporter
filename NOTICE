@@ -278,16 +278,20 @@ THIS SOFTWARE.
   --
 
 (c) BYTE
+(c) BYTE $0xc0
+(c) BYTE $0xc0 BYTE $0xa7 BYTE $0xa8 BYTE $0
 Copyright 2008, 2023-2024 Google Inc. All rights reserved.
+Copyright 2008 Google LLC. All rights reserved.
 Copyright 2018-2019 The Go Authors
 Copyright (c) 2018 The Go Authors. All rights reserved.
 Copyright 2018-2025 The Go Authors. All rights reserved.
+Copyright \d\d\d\d Google (Inc|LLC)\. All rights reserved\.
 Copyright \d\d\d\d Google Inc\. All rights reserved\.
 BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
 BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0
-BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0
+BYTE $0xa7; BYTE $0xa8; BYTE $0xa9; BYTE $0xc0 BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc BYTE $0xa9; BYTE $0xa7; BYTE $0xb6; BYTE $0xbc
 
 Additional IP Rights Grant (Patents)
 
@@ -439,7 +443,7 @@ THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ----
 
-Package: github.com/prometheus/client_golang:1.24.1
+Package: github.com/prometheus/client_golang:1.25.0
 
 This package contains the file LICENSE with the following contents:
 
@@ -871,7 +875,7 @@ Copyright 2013 Prometheus Team
 Copyright 2012-2015 The Prometheus Authors
 ----
 
-Package: github.com/prometheus/common:0.70.1
+Package: github.com/prometheus/common:0.72.0
 
 This package contains the file LICENSE with the following contents:
 
@@ -1085,7 +1089,7 @@ copyright 2026 year
 copyright 2026 years
 ----
 
-Package: github.com/prometheus/procfs:0.21.1
+Package: github.com/prometheus/procfs:0.22.0
 
 This package contains the file LICENSE with the following contents:
 
@@ -1301,7 +1305,7 @@ copyright 2026 year
 copyright 2026 years
 ----
 
-Package: golang.org/x/sys:0.47.0
+Package: golang.org/x/sys:0.48.0
 
 This package contains the file LICENSE with the following contents:
 
